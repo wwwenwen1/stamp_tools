@@ -64,6 +64,9 @@ const dom = {
   zoomOut: $('#zoom-out'),
   zoomReset: $('#zoom-reset'),
   zoomSlider: $('#zoom-slider'),
+  // 翻页
+  btnPrevPage: $('#btn-prev-page'),
+  btnNextPage: $('#btn-next-page'),
 };
 
 // ============================================================
@@ -197,12 +200,34 @@ function renderThumbnails() {
 // 大图预览 + 印章拖拽
 // ============================================================
 
+function updatePageNav() {
+  dom.btnPrevPage.disabled = state.currentPage <= 1;
+  dom.btnNextPage.disabled = state.currentPage >= state.pageCount;
+}
+
 function showLargePreview(pn) {
+  state.currentPage = pn;
   dom.largePreviewImg.src = `data:image/png;base64,${state.previews[pn - 1]}`;
   dom.largePreviewImg.classList.remove('hidden');
   dom.placeholder.style.display = 'none';
+  updatePageNav();
   if (state.stampPreviewUrl) updateStampOverlay();
 }
+
+dom.btnPrevPage.addEventListener('click', () => {
+  if (state.currentPage > 1) showLargePreview(state.currentPage - 1);
+  // 更新缩略图高亮
+  const items = dom.thumbnailsStrip.querySelectorAll('.thumbnail-item');
+  items.forEach(el => el.classList.remove('active'));
+  if (items[state.currentPage - 1]) items[state.currentPage - 1].classList.add('active');
+});
+
+dom.btnNextPage.addEventListener('click', () => {
+  if (state.currentPage < state.pageCount) showLargePreview(state.currentPage + 1);
+  const items = dom.thumbnailsStrip.querySelectorAll('.thumbnail-item');
+  items.forEach(el => el.classList.remove('active'));
+  if (items[state.currentPage - 1]) items[state.currentPage - 1].classList.add('active');
+});
 
 function updateStampOverlay() {
   if (!state.stampPreviewUrl) return;
