@@ -403,6 +403,14 @@ def main():
     host = "127.0.0.1"
     port = 5188
 
+    # noconsole 模式下 sys.stdout/stderr 为 None，重定向到 devnull 避免 uvicorn 崩溃
+    if sys.stdout is None:
+        sys.stdout = open(os.devnull, 'w')
+    if sys.stderr is None:
+        sys.stderr = open(os.devnull, 'w')
+    if sys.stdin is None:
+        sys.stdin = open(os.devnull, 'r')
+
     # 确保 Windows 控制台支持 Unicode 输出
     import io
     if hasattr(sys.stdout, 'reconfigure'):
@@ -429,16 +437,14 @@ def main():
         uvicorn.run(app, host=host, port=port, log_level="info")
     except OSError as e:
         if "10048" in str(e) or "in use" in str(e).lower():
-            print(f"\n[错误] 端口 {port} 已被占用，请先关闭已运行的工具再试。")
+            sys.stderr.write(f"端口 {port} 已被占用，请先关闭已运行的工具再试。\n")
         else:
-            print(f"\n[错误] 启动失败: {e}")
-        input("\n按 Enter 键退出...")
+            sys.stderr.write(f"启动失败: {e}\n")
         sys.exit(1)
     except KeyboardInterrupt:
-        print("\n已退出。")
+        pass
     except Exception as e:
-        print(f"\n[错误] 未知异常: {e}")
-        input("\n按 Enter 键退出...")
+        sys.stderr.write(f"未知异常: {e}\n")
         sys.exit(1)
 
 
