@@ -63,6 +63,7 @@ const dom = {
   zoomIn: $('#zoom-in'),
   zoomOut: $('#zoom-out'),
   zoomReset: $('#zoom-reset'),
+  zoomSlider: $('#zoom-slider'),
 };
 
 // ============================================================
@@ -266,7 +267,14 @@ function initStampDrag() {
 function applyZoom() {
   dom.largePreviewWrapper.style.transform = `scale(${state.zoom / 100})`;
   dom.zoomLevel.textContent = Math.round(state.zoom) + '%';
+  dom.zoomSlider.value = state.zoom;
 }
+
+dom.zoomSlider.addEventListener('input', () => {
+  state.zoom = parseInt(dom.zoomSlider.value);
+  dom.zoomLevel.textContent = state.zoom + '%';
+  dom.largePreviewWrapper.style.transform = `scale(${state.zoom / 100})`;
+});
 
 dom.zoomIn.addEventListener('click', () => {
   state.zoom = Math.min(200, state.zoom + 10);

@@ -436,6 +436,11 @@ header {
   color: #1a73e8;
 }
 
+.zoom-controls input[type="range"] {
+  width: 80px;
+  accent-color: #1a73e8;
+}
+
 .zoom-controls span {
   font-size: 12px;
   color: #888;
