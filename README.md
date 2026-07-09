@@ -84,6 +84,12 @@ python -m PyInstaller --onefile --noconsole \
 
 输出在 `dist/` 目录下。
 
+## 类似项目
+
+- [pyHanko](https://github.com/MatthiasValvekens/pyHanko) — 功能最全面的开源 PDF 签名与盖章工具，支持数字签名、时间戳、加密，CLI 操作
+- [PDF-E-SIGN-and-STAMPS](https://github.com/admiredcell/PDF-E-SING-and-STAMPS-Automation-Script) — 基于 Excel 配置的批量盖章脚本，根据锚点文字自动定位
+- [Cross-page Seal Recognition](https://github.com/LightPolaris/Cross-page_seal_recognition_API) — 骑缝章识别服务，专注印章检测方向
+
 ## License
 
 MIT
