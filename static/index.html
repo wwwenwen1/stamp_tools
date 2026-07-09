@@ -95,14 +95,23 @@
 
   <!-- 预览区 -->
   <main class="preview-area">
-    <div class="preview-wrapper" id="large-preview-wrapper">
-      <div class="placeholder" id="placeholder">
-        <div class="placeholder-icon">📄</div>
-        <p>上传合同文件开始</p>
-      </div>
-      <img id="large-preview-img" src="" class="hidden">
-      <div id="stamp-overlay" class="stamp-overlay hidden">
-        <img id="stamp-drag-img" src="" draggable="false">
+    <!-- 缩放控制 -->
+    <div class="zoom-controls" id="zoom-controls">
+      <button id="zoom-out" title="缩小">−</button>
+      <span id="zoom-level">100%</span>
+      <button id="zoom-in" title="放大">+</button>
+      <button id="zoom-reset" title="重置">↺</button>
+    </div>
+    <div class="preview-scroll">
+      <div class="preview-wrapper" id="large-preview-wrapper">
+        <div class="placeholder" id="placeholder">
+          <div class="placeholder-icon">📄</div>
+          <p>上传合同文件开始</p>
+        </div>
+        <img id="large-preview-img" src="" class="hidden">
+        <div id="stamp-overlay" class="stamp-overlay hidden">
+          <img id="stamp-drag-img" src="" draggable="false">
+        </div>
       </div>
     </div>
   </main>

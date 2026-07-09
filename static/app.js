@@ -17,6 +17,7 @@ const state = {
   stampY: 30,
   stampWidth: 28,
   stampOpacity: 85,
+  zoom: 100,
 };
 
 // ============================================================
@@ -57,6 +58,11 @@ const dom = {
   stampOverlay: $('#stamp-overlay'),
   stampDragImg: $('#stamp-drag-img'),
   placeholder: $('#placeholder'),
+  // 缩放
+  zoomLevel: $('#zoom-level'),
+  zoomIn: $('#zoom-in'),
+  zoomOut: $('#zoom-out'),
+  zoomReset: $('#zoom-reset'),
 };
 
 // ============================================================
@@ -157,7 +163,7 @@ async function uploadFile(file) {
 
     updateStampBtn();
   } catch (err) {
-    alert('文件处理失败: ' + err.message);
+    alert('上传失败\n\n' + err.message + '\n\n支持格式：PDF / Word / Excel\n文件大小上限：50MB');
   } finally {
     hideLoading();
   }
@@ -254,6 +260,30 @@ function initStampDrag() {
 }
 
 // ============================================================
+// 预览缩放
+// ============================================================
+
+function applyZoom() {
+  dom.largePreviewWrapper.style.transform = `scale(${state.zoom / 100})`;
+  dom.zoomLevel.textContent = Math.round(state.zoom) + '%';
+}
+
+dom.zoomIn.addEventListener('click', () => {
+  state.zoom = Math.min(200, state.zoom + 10);
+  applyZoom();
+});
+
+dom.zoomOut.addEventListener('click', () => {
+  state.zoom = Math.max(30, state.zoom - 10);
+  applyZoom();
+});
+
+dom.zoomReset.addEventListener('click', () => {
+  state.zoom = 100;
+  applyZoom();
+});
+
+// ============================================================
 // 印章上传
 // ============================================================
 
@@ -288,7 +318,7 @@ async function uploadStamp(file) {
     };
     reader.readAsDataURL(file);
   } catch (err) {
-    alert('印章上传失败: ' + err.message);
+    alert('印章上传失败\n\n' + err.message + '\n\n支持格式：PNG / JPG / BMP');
   } finally {
     hideLoading();
   }
@@ -442,7 +472,7 @@ dom.stampBtn.addEventListener('click', async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (err) {
-    alert('盖章失败: ' + err.message);
+    alert('盖章失败\n\n' + err.message);
   } finally {
     hideLoading();
   }
