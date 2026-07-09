@@ -40,6 +40,7 @@ const dom = {
   thumbnailsStrip: $('#thumbnails-strip'),
   stampInfoSection: $('#stamp-info-section'),
   stampPreviewImg: $('#stamp-preview-img'),
+  stampRemoveBtn: $('#stamp-remove-btn'),
   stampSaveRow: $('#stamp-save-row'),
   stampNameInput: $('#stamp-name-input'),
   stampSaveBtn: $('#stamp-save-btn'),
@@ -344,6 +345,7 @@ async function uploadStamp(file) {
       dom.stampPreviewImg.src = state.stampPreviewUrl;
       dom.stampInfoSection.classList.remove('hidden');
       dom.stampSaveRow.classList.remove('hidden');
+      dom.stampRemoveBtn.classList.remove('hidden');
       dom.stampNameInput.value = '';
 
       if (state.fileId) updateStampOverlay();
@@ -372,6 +374,22 @@ dom.stampSaveBtn.addEventListener('click', async () => {
 dom.stampNameInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') dom.stampSaveBtn.click();
 });
+
+// 清除印章
+function clearStamp() {
+  state.stampId = null;
+  state.stampRawUrl = null;
+  state.stampPreviewUrl = null;
+  dom.stampOverlay.classList.add('hidden');
+  dom.stampInfoSection.classList.add('hidden');
+  dom.stampSaveRow.classList.add('hidden');
+  dom.stampRemoveBtn.classList.add('hidden');
+  dom.stampDropZone.classList.remove('has-file');
+  dom.savedStampsList.querySelectorAll('.saved-stamp-item').forEach(el => el.classList.remove('active'));
+  updateStampBtn();
+}
+
+dom.stampRemoveBtn.addEventListener('click', clearStamp);
 
 // 印章大小
 dom.stampSizeSlider.addEventListener('input', () => {
@@ -442,6 +460,7 @@ async function loadSavedStamps() {
           dom.stampPreviewImg.src = state.stampPreviewUrl;
           dom.stampInfoSection.classList.remove('hidden');
           dom.stampSaveRow.classList.add('hidden');
+          dom.stampRemoveBtn.classList.remove('hidden');
           if (state.fileId) updateStampOverlay();
           updateStampBtn();
           dom.savedStampsList.querySelectorAll('.saved-stamp-item').forEach(el => el.classList.remove('active'));
