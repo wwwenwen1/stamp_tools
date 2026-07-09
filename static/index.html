@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同批量盖章工具</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- 顶部栏 -->
+<header>
+  <div class="header-left">
+    <span class="logo">合同盖章工具</span>
+  </div>
+  <div class="header-actions">
+    <button id="btn-upload-file" class="btn-top">
+      <span class="btn-icon">📄</span>上传文件
+    </button>
+    <button id="btn-upload-stamp" class="btn-top">
+      <span class="btn-icon">🔖</span>上传印章
+    </button>
+    <button id="stamp-btn" class="btn-top primary" disabled>
+      <span class="btn-icon">✅</span>盖章导出
+    </button>
+  </div>
+  <input type="file" id="file-input" accept=".pdf,.docx,.doc,.xlsx,.xls" hidden>
+  <input type="file" id="stamp-input" accept=".png,.jpg,.jpeg,.bmp" hidden>
+</header>
+
+<!-- 主体 -->
+<div class="main-container">
+
+  <!-- 左侧面板 -->
+  <aside class="sidebar">
+
+    <!-- 文件信息 -->
+    <div id="file-info" class="side-section hidden">
+      <div class="section-title">文件</div>
+      <div class="file-name" id="file-name"></div>
+      <div class="file-meta" id="page-count"></div>
+    </div>
+
+    <!-- 页面缩略图 -->
+    <div id="thumbnails-section" class="side-section hidden">
+      <div class="section-title">页面</div>
+      <div id="thumbnails-strip" class="thumbnails-vertical"></div>
+    </div>
+
+    <!-- 盖章范围 -->
+    <div class="side-section">
+      <div class="section-title">盖章范围</div>
+      <div class="range-options">
+        <label class="radio-row">
+          <input type="radio" name="page-range-type" value="current" checked>
+          <span>当前页</span>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="page-range-type" value="custom">
+          <span>指定范围</span>
+        </label>
+      </div>
+      <div class="range-inputs" id="range-inputs">
+        <input type="number" id="range-start" class="range-input" min="1" value="1" disabled>
+        <span>—</span>
+        <input type="number" id="range-end" class="range-input" min="1" value="1" disabled>
+        <span>页</span>
+      </div>
+    </div>
+
+    <!-- 印章信息 -->
+    <div id="stamp-info-section" class="side-section hidden">
+      <div class="section-title">印章</div>
+      <div class="stamp-preview-side">
+        <img id="stamp-preview-img" src="" alt="">
+      </div>
+      <div class="stamp-save-row" id="stamp-save-row">
+        <input type="text" id="stamp-name-input" placeholder="输入名称" maxlength="20">
+        <button id="stamp-save-btn">保存</button>
+      </div>
+      <div class="size-row">
+        <label>大小</label>
+        <input type="range" id="stamp-size-slider" min="10" max="45" value="28" step="1">
+        <span id="stamp-size-val">28%</span>
+      </div>
+    </div>
+
+    <!-- 已保存印章 -->
+    <div id="saved-stamps-section" class="side-section hidden">
+      <div class="section-title">已保存</div>
+      <div id="saved-stamps-list" class="saved-stamps-list"></div>
+    </div>
+
+  </aside>
+
+  <!-- 预览区 -->
+  <main class="preview-area">
+    <div class="preview-wrapper" id="large-preview-wrapper">
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-icon">📄</div>
+        <p>上传合同文件开始</p>
+      </div>
+      <img id="large-preview-img" src="" class="hidden">
+      <div id="stamp-overlay" class="stamp-overlay hidden">
+        <img id="stamp-drag-img" src="" draggable="false">
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

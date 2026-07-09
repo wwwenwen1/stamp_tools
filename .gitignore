@@ -1,0 +1,21 @@
+# 打包输出
+dist/
+build/
+*.spec
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 运行时数据
+uploads/
+outputs/
+
+# 测试文件
+输出/
+*.log
+
+# IDE
+.vscode/
+.idea/
